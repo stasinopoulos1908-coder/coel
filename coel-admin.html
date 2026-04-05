@@ -149,7 +149,7 @@ async function init() {
   if (!BIN_ID) { await createBin(); return; }
   setStatus('loading','⏳ Φόρτωση αγώνων...');
   try {
-    const res  = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, { headers:{'X-Master-Key':API_KEY} });
+    const res  = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, { headers:{'X-Access-Key':API_KEY} });
     if (!res.ok) throw new Error('HTTP '+res.status);
     const data = await res.json();
     matches = data.record.matches || [];
@@ -172,7 +172,7 @@ async function createBin() {
   try {
     const res = await fetch('https://api.jsonbin.io/v3/b', {
       method:'POST',
-      headers:{'Content-Type':'application/json','X-Master-Key':API_KEY,'X-Bin-Name':'COEL-Matches','X-Bin-Private':'false'},
+      headers:{'Content-Type':'application/json','X-Access-Key':API_KEY,'X-Bin-Name':'COEL-Matches','X-Bin-Private':'false'},
       body: JSON.stringify(def)
     });
     if (!res.ok) throw new Error('HTTP '+res.status);
@@ -207,7 +207,7 @@ async function saveMatches() {
   try {
     const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
       method:'PUT',
-      headers:{'Content-Type':'application/json','X-Master-Key':API_KEY},
+      headers:{'Content-Type':'application/json','X-Access-Key':API_KEY},
       body: JSON.stringify({matches:collected})
     });
     if (!res.ok) throw new Error('HTTP '+res.status);

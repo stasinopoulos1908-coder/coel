@@ -7,234 +7,70 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --gold: #C9A84C;
-    --gold-light: #F0D080;
-    --gold-dark: #8B6914;
-    --black: #080808;
-    --black2: #111111;
-    --black3: #1A1A1A;
-    --black4: #222222;
-    --white: #F5F0E8;
-    --gray: #777;
+    --gold: #C9A84C; --gold-light: #F0D080; --gold-dark: #8B6914;
+    --black: #080808; --black2: #111111; --black3: #1A1A1A; --black4: #222222;
+    --white: #F5F0E8; --gray: #777;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    background: var(--black);
-    color: var(--white);
-    font-family: 'Montserrat', sans-serif;
-    min-height: 100vh;
-    padding-bottom: 40px;
-  }
-  .gold-text {
-    background: linear-gradient(135deg, #8B6914 0%, #C9A84C 35%, #F0D080 55%, #C9A84C 80%, #8B6914 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .header {
-    text-align: center;
-    padding: 28px 20px 20px;
-    background: var(--black2);
-    border-bottom: 1px solid #1e1e1e;
-    position: relative;
-  }
-  .header::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 10%; right: 10%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  }
-  .logo-main {
-    font-family: 'Playfair Display', serif;
-    font-size: 42px;
-    font-weight: 900;
-    letter-spacing: 4px;
-    line-height: 1;
-  }
-  .logo-sub {
-    font-size: 10px;
-    letter-spacing: 4px;
-    color: var(--gold);
-    text-transform: uppercase;
-    margin-top: 4px;
-  }
-  .coupon-id {
-    display: inline-block;
-    margin-top: 12px;
-    background: var(--black3);
-    border: 1px solid #2a2a2a;
-    border-radius: 20px;
-    font-size: 10px;
-    letter-spacing: 2px;
-    color: var(--gray);
-    padding: 4px 14px;
-  }
-  .prize-ladder {
-    margin: 20px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  .prize-step {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: var(--black2);
-    border: 1px solid #222;
-    border-radius: 8px;
-    padding: 10px 14px;
-    font-size: 12px;
-  }
+  body { background: var(--black); color: var(--white); font-family: 'Montserrat', sans-serif; min-height: 100vh; padding-bottom: 40px; }
+  .gold-text { background: linear-gradient(135deg, #8B6914 0%, #C9A84C 35%, #F0D080 55%, #C9A84C 80%, #8B6914 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .header { text-align: center; padding: 28px 20px 20px; background: var(--black2); border-bottom: 1px solid #1e1e1e; position: relative; }
+  .header::after { content: ''; position: absolute; bottom: 0; left: 10%; right: 10%; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+  .logo-main { font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 900; letter-spacing: 4px; line-height: 1; }
+  .logo-sub { font-size: 10px; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; margin-top: 4px; }
+  .coupon-id { display: inline-block; margin-top: 12px; background: var(--black3); border: 1px solid #2a2a2a; border-radius: 20px; font-size: 10px; letter-spacing: 2px; color: var(--gray); padding: 4px 14px; }
+  .prize-ladder { margin: 20px 16px; display: flex; flex-direction: column; gap: 6px; }
+  .prize-step { display: flex; align-items: center; gap: 10px; background: var(--black2); border: 1px solid #222; border-radius: 8px; padding: 10px 14px; font-size: 12px; }
   .prize-step.gold-border { border-color: var(--gold-dark); }
-  .prize-num {
-    width: 24px; height: 24px;
-    border-radius: 50%;
-    background: var(--black3);
-    border: 1px solid #333;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 11px; color: var(--gold); font-weight: 600; flex-shrink: 0;
-  }
+  .prize-num { width: 24px; height: 24px; border-radius: 50%; background: var(--black3); border: 1px solid #333; display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--gold); font-weight: 600; flex-shrink: 0; }
   .prize-desc { flex: 1; color: var(--gray); }
   .prize-desc strong { color: var(--white); display: block; font-size: 13px; }
   .prize-icon { font-size: 18px; }
-  .s-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 13px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin: 20px 16px 10px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #1e1e1e;
-  }
-  .match-block {
-    margin: 0 16px 14px;
-    background: var(--black2);
-    border: 1px solid #222;
-    border-radius: 10px;
-    overflow: hidden;
-  }
-  .match-block.locked { opacity: 0.4; pointer-events: none; }
-  .match-header {
-    background: var(--black3);
-    padding: 8px 14px;
-    display: flex; align-items: center; justify-content: space-between;
-    border-bottom: 1px solid #1e1e1e;
-  }
+  .s-title { font-family: 'Playfair Display', serif; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin: 20px 16px 10px; padding-bottom: 8px; border-bottom: 1px solid #1e1e1e; }
+  .match-block { margin: 0 16px 14px; background: var(--black2); border: 1px solid #222; border-radius: 10px; overflow: hidden; }
+  .match-header { background: var(--black3); padding: 8px 14px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #1e1e1e; }
   .match-num { font-size: 10px; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; }
   .match-datetime { font-size: 11px; color: var(--gray); }
-  .match-teams {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 16px; gap: 8px;
-  }
-  .team-name {
-    font-family: 'Playfair Display', serif;
-    font-size: 16px; font-weight: 700;
-    text-align: center; flex: 1; line-height: 1.2;
-  }
-  .vs-badge {
-    background: var(--black3);
-    border: 1px solid #2a2a2a;
-    border-radius: 6px;
-    padding: 6px 10px;
-    font-size: 11px; color: var(--gray); letter-spacing: 1px; flex-shrink: 0;
-  }
+  .match-teams { display: flex; align-items: center; justify-content: space-between; padding: 16px; gap: 8px; }
+  .team-name { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; text-align: center; flex: 1; line-height: 1.2; }
+  .vs-badge { background: var(--black3); border: 1px solid #2a2a2a; border-radius: 6px; padding: 6px 10px; font-size: 11px; color: var(--gray); letter-spacing: 1px; flex-shrink: 0; }
   .score-picker { padding: 0 16px 16px; }
-  .score-picker-label {
-    font-size: 10px; letter-spacing: 2px; color: var(--gray);
-    text-align: center; margin-bottom: 10px; text-transform: uppercase;
-  }
+  .score-picker-label { font-size: 10px; letter-spacing: 2px; color: var(--gray); text-align: center; margin-bottom: 10px; text-transform: uppercase; }
   .score-row { display: flex; align-items: center; justify-content: center; gap: 10px; }
-  .score-ctrl {
-    display: flex; align-items: center; gap: 0;
-    background: var(--black3); border: 1px solid #2a2a2a;
-    border-radius: 8px; overflow: hidden;
-  }
-  .score-btn {
-    width: 40px; height: 40px;
-    background: none; border: none; color: var(--gold);
-    font-size: 20px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: background 0.15s;
-    font-family: 'Playfair Display', serif;
-  }
+  .score-ctrl { display: flex; align-items: center; background: var(--black3); border: 1px solid #2a2a2a; border-radius: 8px; overflow: hidden; }
+  .score-btn { width: 40px; height: 40px; background: none; border: none; color: var(--gold); font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s; font-family: 'Playfair Display', serif; }
   .score-btn:active { background: #2a2a2a; }
-  .score-val {
-    min-width: 36px; text-align: center;
-    font-family: 'Playfair Display', serif;
-    font-size: 22px; font-weight: 700; color: var(--white);
-  }
+  .score-val { min-width: 36px; text-align: center; font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--white); }
   .score-dash-big { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--gold); }
-  .pick-confirm {
-    display: flex; align-items: center; justify-content: center; gap: 6px;
-    margin-top: 12px; padding: 10px;
-    background: var(--black3); border-radius: 6px;
-    font-size: 12px; color: var(--gray);
-  }
+  .pick-confirm { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 12px; padding: 10px; background: var(--black3); border-radius: 6px; font-size: 12px; color: var(--gray); }
   .pick-confirm span.pick-text { color: var(--white); font-weight: 500; }
   .match-toggle { display: flex; gap: 8px; padding: 0 16px 14px; }
-  .toggle-btn {
-    flex: 1; padding: 8px; border-radius: 6px;
-    border: 1px solid #2a2a2a; background: none;
-    color: var(--gray); font-family: 'Montserrat', sans-serif;
-    font-size: 11px; letter-spacing: 1px; cursor: pointer; transition: all 0.15s;
-  }
+  .toggle-btn { flex: 1; padding: 8px; border-radius: 6px; border: 1px solid #2a2a2a; background: none; color: var(--gray); font-family: 'Montserrat', sans-serif; font-size: 11px; letter-spacing: 1px; cursor: pointer; transition: all 0.15s; }
   .toggle-btn.playing { background: #1a2a1a; color: #5cb85c; border-color: #2d4a2d; }
   .toggle-btn.skip { background: #2a1a1a; color: #c0504d; border-color: #4a2a2a; }
   .submit-area { margin: 24px 16px 0; }
-  .btn-submit {
-    width: 100%; padding: 16px;
-    background: linear-gradient(135deg, #8B6914, #C9A84C, #F0D080, #C9A84C);
-    border: none; border-radius: 8px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
-    color: var(--black); cursor: pointer; transition: opacity 0.2s, transform 0.1s;
-  }
+  .btn-submit { width: 100%; padding: 16px; background: linear-gradient(135deg, #8B6914, #C9A84C, #F0D080, #C9A84C); border: none; border-radius: 8px; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--black); cursor: pointer; transition: opacity 0.2s, transform 0.1s; }
   .btn-submit:active { transform: scale(0.98); }
-  .submit-note {
-    font-size: 10px; color: var(--gray);
-    text-align: center; margin-top: 10px;
-    letter-spacing: 1px; line-height: 1.6;
-  }
+  .submit-note { font-size: 10px; color: var(--gray); text-align: center; margin-top: 10px; letter-spacing: 1px; line-height: 1.6; }
   .result-screen { display: none; text-align: center; padding: 40px 20px; }
   .result-screen.show { display: block; }
   .result-icon { font-size: 64px; margin-bottom: 20px; }
-  .result-headline {
-    font-family: 'Playfair Display', serif;
-    font-size: 28px; font-weight: 700; margin-bottom: 10px; line-height: 1.2;
-  }
+  .result-headline { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; margin-bottom: 10px; line-height: 1.2; }
   .result-sub { font-size: 13px; color: var(--gray); line-height: 1.6; margin-bottom: 24px; }
-  .result-prize {
-    background: var(--black2); border: 1px solid var(--gold-dark);
-    border-radius: 12px; padding: 20px; margin: 0 auto 24px; max-width: 300px;
-  }
+  .result-prize { background: var(--black2); border: 1px solid var(--gold-dark); border-radius: 12px; padding: 20px; margin: 0 auto 24px; max-width: 300px; }
   .result-prize-title { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
   .result-prize-text { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; }
   .picks-summary { display: flex; flex-direction: column; gap: 8px; margin: 20px 0; text-align: left; }
-  .pick-row {
-    display: flex; justify-content: space-between; align-items: center;
-    background: var(--black3); border-radius: 6px; padding: 10px 14px; font-size: 13px;
-  }
+  .pick-row { display: flex; justify-content: space-between; align-items: center; background: var(--black3); border-radius: 6px; padding: 10px 14px; font-size: 13px; }
   .pick-row .teams-small { color: var(--gray); font-size: 12px; }
   .pick-row .score-sm { font-family:'Playfair Display',serif; font-size:16px; font-weight:700; }
   .pick-row .correct { color: #5cb85c; }
   .pick-row .wrong { color: #c0504d; }
   .loading { text-align:center; padding:60px 20px; color:var(--gray); font-size:13px; letter-spacing:2px; }
-  .error-box {
-    margin: 20px 16px; background: #1a0a0a; border: 1px solid #4a2a2a;
-    border-radius: 10px; padding: 20px; text-align: center;
-  }
+  .error-box { margin: 20px 16px; background: #1a0a0a; border: 1px solid #4a2a2a; border-radius: 10px; padding: 20px; text-align: center; }
   .error-box p { color: #c0504d; font-size: 13px; line-height: 1.6; }
-  @keyframes confettiFall {
-    0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-  }
-  .confetti-piece {
-    position: fixed; width: 10px; height: 10px;
-    animation: confettiFall 3s ease-in forwards;
-    z-index: 999; pointer-events: none;
-  }
+  @keyframes confettiFall { 0% { transform: translateY(-20px) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
+  .confetti-piece { position: fixed; width: 10px; height: 10px; animation: confettiFall 3s ease-in forwards; z-index: 999; pointer-events: none; }
 </style>
 </head>
 <body>
@@ -248,32 +84,31 @@
 <div id="main-content">
   <div class="loading">⏳ Φόρτωση αγώνων...</div>
 </div>
-
 <div class="result-screen" id="result-screen"></div>
 
 <script>
-// =============================================
-// ΡΥΘΜΙΣΕΙΣ — μόνο αυτά αλλάζουν ανά τραπέζι
-// =============================================
-const BIN_ID = '6849a2ef8a456b796684ee94'; // JSONBin Bin ID (δημιουργείται από admin)
-const API_KEY = '$2a$10$8zOcogcm3zIea.wSZBFVBuFmfzk1lAor1cbPB3pvNnlYOCXsXd22i';
-// =============================================
-
-// Διαβάζουμε το τραπέζι από το URL: ?table=3
-const params = new URLSearchParams(window.location.search);
+// ── Διαβάζουμε παραμέτρους από το URL ──
+// ?table=3&bin=BINID
+const params  = new URLSearchParams(window.location.search);
 const tableNum = params.get('table') || '1';
-const tableName = 'Τραπέζι ' + tableNum;
+const BIN_ID   = params.get('bin')   || '';
+const API_KEY  = '$2a$10$8zOcogcm3zIea.wSZBFVBuFmfzk1lAor1cbPB3pvNnlYOCXsXd22i';
 
+const tableName = 'Τραπέζι ' + tableNum;
 document.getElementById('coupon-id').textContent = tableName;
 
 let session = null;
-let picks = [];
+let picks   = [];
 
-// Φόρτωση από JSONBin
 async function loadSession() {
+  if (!BIN_ID) {
+    document.getElementById('main-content').innerHTML = `
+      <div class="error-box"><p>⚠ Μη έγκυρο QR.<br>Επικοινώνησε με το προσωπικό.</p></div>`;
+    return;
+  }
   try {
     const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
-      headers: { 'X-Master-Key': API_KEY }
+      headers: { 'X-Access-Key': API_KEY }
     });
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
@@ -285,15 +120,12 @@ async function loadSession() {
     render();
   } catch(e) {
     document.getElementById('main-content').innerHTML = `
-      <div class="error-box">
-        <p>⚠ Δεν ήταν δυνατή η φόρτωση των αγώνων.<br>Έλεγξε τη σύνδεσή σου και ανανέωσε τη σελίδα.</p>
-      </div>`;
+      <div class="error-box"><p>⚠ Δεν ήταν δυνατή η φόρτωση.<br>Ανανέωσε τη σελίδα ή ζήτα βοήθεια.</p></div>`;
   }
 }
 
 function render() {
   const main = document.getElementById('main-content');
-
   const prizeHtml = `
     <div class="prize-ladder">
       <div class="prize-step">
@@ -317,14 +149,12 @@ function render() {
         <div class="prize-icon">❌</div>
       </div>
     </div>
-    <div class="s-title">✦ Επιλογές Σκορ</div>
-  `;
+    <div class="s-title">✦ Επιλογές Σκορ</div>`;
 
   const matchesHtml = session.matches.map((m, i) => {
     const p = picks[i];
     const dateStr = m.date ? m.date.split('-').reverse().join('/') : '';
-    const timeStr = m.time || '';
-    const dtStr = [dateStr, timeStr].filter(Boolean).join(' · ');
+    const dtStr = [dateStr, m.time].filter(Boolean).join(' · ');
     return `
       <div class="match-block" id="match-block-${i}">
         <div class="match-header">
@@ -340,8 +170,7 @@ function render() {
         <div class="match-toggle">
           <button class="toggle-btn ${p.participating===true?'playing':''}" onclick="setParticipation(${i},true)">✔ Παίζω</button>
           <button class="toggle-btn ${p.participating===false?'skip':''}" onclick="setParticipation(${i},false)">✕ Παραλείπω</button>
-        </div>
-        ` : ''}
+        </div>` : ''}
         <div class="score-picker" id="picker-${i}" ${i > 0 && p.participating !== true ? 'style="display:none"' : ''}>
           <div class="score-picker-label">Επέλεξε ακριβές σκορ</div>
           <div class="score-row">
@@ -362,27 +191,22 @@ function render() {
             <span class="pick-text" id="confirm-${i}">${m.home} <strong>${p.home} – ${p.away}</strong> ${m.away}</span>
           </div>
         </div>
-      </div>
-    `;
+      </div>`;
   }).join('');
 
-  const submitHtml = `
+  main.innerHTML = prizeHtml + matchesHtml + `
     <div class="submit-area">
       <button class="btn-submit" onclick="submitPicks()">✦ Υποβολή Πρόβλεψης</button>
       <div class="submit-note">Αφού υποβάλεις δεν μπορείς να αλλάξεις τις επιλογές σου.<br>Τα αποτελέσματα επαληθεύονται από το κατάστημα.</div>
-    </div>
-  `;
-
-  main.innerHTML = prizeHtml + matchesHtml + submitHtml;
+    </div>`;
 }
 
 function changeScore(matchIdx, team, delta) {
   picks[matchIdx][team] = Math.max(0, Math.min(20, picks[matchIdx][team] + delta));
   document.getElementById(`${team}-val-${matchIdx}`).textContent = picks[matchIdx][team];
-  const m = session.matches[matchIdx];
-  const p = picks[matchIdx];
-  const confirmEl = document.getElementById(`confirm-${matchIdx}`);
-  if (confirmEl) confirmEl.innerHTML = `${m.home} <strong>${p.home} – ${p.away}</strong> ${m.away}`;
+  const m = session.matches[matchIdx], p = picks[matchIdx];
+  const el = document.getElementById(`confirm-${matchIdx}`);
+  if (el) el.innerHTML = `${m.home} <strong>${p.home} – ${p.away}</strong> ${m.away}`;
 }
 
 function setParticipation(matchIdx, val) {
@@ -398,124 +222,85 @@ function setParticipation(matchIdx, val) {
 }
 
 function getActivePicks() {
-  const active = [];
-  active.push({ matchIdx: 0, home: picks[0].home, away: picks[0].away });
+  const active = [{ matchIdx: 0, home: picks[0].home, away: picks[0].away }];
   for (let i = 1; i < session.matches.length; i++) {
-    if (picks[i].participating === true) {
-      active.push({ matchIdx: i, home: picks[i].home, away: picks[i].away });
-    }
+    if (picks[i].participating === true) active.push({ matchIdx: i, home: picks[i].home, away: picks[i].away });
   }
   return active;
 }
 
 function submitPicks() {
   const active = getActivePicks();
-  if (active.length === 0) { alert('Πρέπει να παίξεις τουλάχιστον τον πρώτο αγώνα!'); return; }
+  if (!active.length) { alert('Πρέπει να παίξεις τουλάχιστον τον πρώτο αγώνα!'); return; }
   openGmailNotification(active);
   evaluateAndShow(active);
 }
 
 function openGmailNotification(activePicks) {
   const now = new Date().toLocaleString('el-GR', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
-  const matchLines = activePicks.map(p => {
-    const m = session.matches[p.matchIdx];
-    return `  Αγώνας ${p.matchIdx+1}: ${m.home} vs ${m.away}  →  Πρόβλεψη: ${p.home} - ${p.away}`;
-  }).join('\n');
+  const lines = activePicks.map(p => `  Αγώνας ${p.matchIdx+1}: ${session.matches[p.matchIdx].home} vs ${session.matches[p.matchIdx].away}  →  ${p.home} - ${p.away}`).join('\n');
   const subject = encodeURIComponent(`🎯 Νέα Πρόβλεψη — ${session.table} (#${session.id})`);
-  const body = encodeURIComponent(`Νέα πρόβλεψη στο COEL Coffee & Sports!\n\n📋 Τραπέζι: ${session.table}\n🎟 Κωδικός: #${session.id}\n🕐 Ώρα: ${now}\n🎮 Αριθμός αγώνων: ${activePicks.length}\n\nΕΠΙΛΟΓΕΣ ΠΕΛΑΤΗ:\n${matchLines}\n\n---\nCOEL Coffee & Sports — Σύστημα Προβλέψεων`);
+  const body = encodeURIComponent(`Νέα πρόβλεψη στο COEL!\n\n📋 ${session.table}\n🎟 #${session.id}\n🕐 ${now}\n\n${lines}\n\n---\nCOEL Coffee & Sports`);
   window.open(`mailto:stasinopoulos1908@gmail.com?subject=${subject}&body=${body}`, '_blank');
 }
 
 function evaluateAndShow(activePicks) {
-  const matches = session.matches;
-  const allHaveResults = activePicks.every(p => matches[p.matchIdx].result !== null);
-  if (!allHaveResults) { showPending(activePicks); return; }
-  let correct = 0; let wrong = false;
-  const resultRows = activePicks.map(p => {
-    const m = matches[p.matchIdx];
-    const r = m.result;
+  const allDone = activePicks.every(p => session.matches[p.matchIdx].result !== null);
+  if (!allDone) { showPending(activePicks); return; }
+  let wrong = false;
+  const rows = activePicks.map(p => {
+    const r = session.matches[p.matchIdx].result;
     const hit = r && r.home === p.home && r.away === p.away;
-    if (hit) correct++; else wrong = true;
-    return { match: m, pick: p, hit };
+    if (!hit) wrong = true;
+    return { match: session.matches[p.matchIdx], pick: p, hit };
   });
-  if (wrong) showLost(resultRows, activePicks.length);
-  else showWon(resultRows, activePicks.length);
+  wrong ? showLost(rows, activePicks.length) : showWon(rows, activePicks.length);
 }
 
 function showPending(activePicks) {
   document.getElementById('main-content').style.display = 'none';
-  const rs = document.getElementById('result-screen');
-  rs.classList.add('show');
-  const picksHtml = activePicks.map(p => {
-    const m = session.matches[p.matchIdx];
-    return `<div class="pick-row"><div><div>${m.home} vs ${m.away}</div><div class="teams-small">Αγώνας ${p.matchIdx+1}</div></div><div class="score-sm">${p.home} – ${p.away}</div></div>`;
-  }).join('');
+  const rs = document.getElementById('result-screen'); rs.classList.add('show');
   rs.innerHTML = `
     <div class="result-icon">⏳</div>
     <div class="result-headline gold-text">Πρόβλεψη Καταχωρήθηκε!</div>
     <div class="result-sub">Τα αποτελέσματα αναμένονται.<br>Δείξε αυτή την οθόνη στο καφέ όταν τελειώσουν οι αγώνες.</div>
     <div class="result-prize"><div class="result-prize-title">Αριθμός Κουπονιού</div><div class="result-prize-text">#${session.id}</div></div>
-    <div class="picks-summary">${picksHtml}</div>
-    <div style="font-size:11px;color:var(--gray);margin-top:16px;letter-spacing:1px;line-height:1.7">${session.table} · COEL Coffee &amp; Sports</div>
-  `;
+    <div class="picks-summary">${activePicks.map(p=>`<div class="pick-row"><div><div>${session.matches[p.matchIdx].home} vs ${session.matches[p.matchIdx].away}</div><div class="teams-small">Αγώνας ${p.matchIdx+1}</div></div><div class="score-sm">${p.home} – ${p.away}</div></div>`).join('')}</div>
+    <div style="font-size:11px;color:var(--gray);margin-top:16px;letter-spacing:1px">${session.table} · COEL Coffee &amp; Sports</div>`;
 }
 
-function showWon(resultRows, count) {
+function showWon(rows, count) {
   document.getElementById('main-content').style.display = 'none';
-  const rs = document.getElementById('result-screen');
-  rs.classList.add('show');
-  const prizes = ['', '☕ Κερασμένος ο καφές σου!', '🍔 Κερασμένο ό,τι φας!', '👑 Ολόκληρο το τραπέζι ΔΩΡΕΑΝ!'];
-  const prizeText = prizes[count] || prizes[3];
+  const rs = document.getElementById('result-screen'); rs.classList.add('show');
+  const prizes = ['','☕ Κερασμένος ο καφές σου!','🍔 Κερασμένο ό,τι φας!','👑 Ολόκληρο το τραπέζι ΔΩΡΕΑΝ!'];
   fireConfetti();
-  const picksHtml = resultRows.map(row => `
-    <div class="pick-row"><div><div>${row.match.home} vs ${row.match.away}</div><div class="teams-small">Αγώνας ${row.pick.matchIdx+1}</div></div><div class="score-sm correct">✔ ${row.pick.home} – ${row.pick.away}</div></div>
-  `).join('');
   rs.innerHTML = `
     <div class="result-icon">🏆</div>
     <div class="result-headline gold-text">Συγχαρητήρια!</div>
     <div class="result-sub">Πέτυχες ${count} από ${count} σκορ!<br>Δείξε αυτή την οθόνη στο προσωπικό.</div>
-    <div class="result-prize"><div class="result-prize-title">Δώρο</div><div class="result-prize-text">${prizeText}</div></div>
-    <div class="picks-summary">${picksHtml}</div>
-    <div style="font-size:11px;color:var(--gray);margin-top:16px;letter-spacing:1px">${session.table} · #${session.id}</div>
-  `;
+    <div class="result-prize"><div class="result-prize-title">Δώρο</div><div class="result-prize-text">${prizes[count]||prizes[3]}</div></div>
+    <div class="picks-summary">${rows.map(r=>`<div class="pick-row"><div><div>${r.match.home} vs ${r.match.away}</div><div class="teams-small">Αγώνας ${r.pick.matchIdx+1}</div></div><div class="score-sm correct">✔ ${r.pick.home} – ${r.pick.away}</div></div>`).join('')}</div>
+    <div style="font-size:11px;color:var(--gray);margin-top:16px;letter-spacing:1px">${session.table} · #${session.id}</div>`;
 }
 
-function showLost(resultRows, count) {
+function showLost(rows, count) {
   document.getElementById('main-content').style.display = 'none';
-  const rs = document.getElementById('result-screen');
-  rs.classList.add('show');
-  const picksHtml = resultRows.map(row => {
-    const cls = row.hit ? 'correct' : 'wrong';
-    const icon = row.hit ? '✔' : '✕';
-    const actual = row.match.result ? `(${row.match.result.home}–${row.match.result.away})` : '';
-    return `<div class="pick-row"><div><div>${row.match.home} vs ${row.match.away}</div><div class="teams-small">Αγώνας ${row.pick.matchIdx+1} ${actual}</div></div><div class="score-sm ${cls}">${icon} ${row.pick.home} – ${row.pick.away}</div></div>`;
-  }).join('');
+  const rs = document.getElementById('result-screen'); rs.classList.add('show');
   rs.innerHTML = `
     <div class="result-icon">😔</div>
     <div class="result-headline" style="color:#c0504d">Δυστυχώς...</div>
     <div class="result-sub">Κάποιο σκορ δεν ήταν σωστό.<br>Καλύτερη τύχη την επόμενη φορά!</div>
-    <div class="picks-summary">${picksHtml}</div>
-    <div style="font-size:11px;color:var(--gray);margin-top:20px;letter-spacing:1px">${session.table} · #${session.id} · COEL Coffee &amp; Sports</div>
-  `;
+    <div class="picks-summary">${rows.map(r=>{const a=r.match.result?`(${r.match.result.home}–${r.match.result.away})`:'';return`<div class="pick-row"><div><div>${r.match.home} vs ${r.match.away}</div><div class="teams-small">Αγώνας ${r.pick.matchIdx+1} ${a}</div></div><div class="score-sm ${r.hit?'correct':'wrong'}">${r.hit?'✔':'✕'} ${r.pick.home} – ${r.pick.away}</div></div>`;}).join('')}</div>
+    <div style="font-size:11px;color:var(--gray);margin-top:20px;letter-spacing:1px">${session.table} · #${session.id} · COEL</div>`;
 }
 
 function fireConfetti() {
   const colors = ['#C9A84C','#F0D080','#ffffff','#8B6914'];
-  for (let i = 0; i < 60; i++) {
-    setTimeout(() => {
-      const el = document.createElement('div');
-      el.className = 'confetti-piece';
-      el.style.left = Math.random() * 100 + 'vw';
-      el.style.top = '-20px';
-      el.style.background = colors[Math.floor(Math.random() * colors.length)];
-      el.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
-      el.style.width = (6 + Math.random() * 10) + 'px';
-      el.style.height = (6 + Math.random() * 10) + 'px';
-      el.style.animationDuration = (2 + Math.random() * 2) + 's';
-      document.body.appendChild(el);
-      setTimeout(() => el.remove(), 4000);
-    }, i * 40);
-  }
+  for (let i = 0; i < 60; i++) setTimeout(() => {
+    const el = document.createElement('div'); el.className = 'confetti-piece';
+    el.style.cssText = `left:${Math.random()*100}vw;top:-20px;background:${colors[Math.floor(Math.random()*4)]};border-radius:${Math.random()>.5?'50%':'0'};width:${6+Math.random()*10}px;height:${6+Math.random()*10}px;animation-duration:${2+Math.random()*2}s`;
+    document.body.appendChild(el); setTimeout(()=>el.remove(),4000);
+  }, i*40);
 }
 
 loadSession();
