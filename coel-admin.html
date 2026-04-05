@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>COEL — Admin Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F0D080;
+    --gold-dark: #8B6914;
+    --black: #080808;
+    --black2: #111111;
+    --black3: #1A1A1A;
+    --black4: #222222;
+    --white: #F5F0E8;
+    --gray: #777;
+    --green: #5cb85c;
+    --red: #c0504d;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+  .gold-text {
+    background: linear-gradient(135deg, #8B6914 0%, #C9A84C 35%, #F0D080 55%, #C9A84C 80%, #8B6914 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .header {
+    text-align: center;
+    padding: 28px 20px 20px;
+    background: var(--black2);
+    border-bottom: 1px solid #1e1e1e;
+    position: relative;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 10%; right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .logo-main { font-family:'Playfair Display',serif; font-size:42px; font-weight:900; letter-spacing:4px; line-height:1; }
+  .logo-sub { font-size:10px; letter-spacing:4px; color:var(--gold); text-transform:uppercase; margin-top:4px; }
+  .admin-badge {
+    display:inline-block; margin-top:12px;
+    background:#1a1a00; border:1px solid var(--gold-dark);
+    border-radius:20px; font-size:10px; letter-spacing:3px;
+    color:var(--gold); padding:4px 16px; text-transform:uppercase;
+  }
+  .s-title {
+    font-family:'Playfair Display',serif;
+    font-size:13px; letter-spacing:2px; text-transform:uppercase;
+    color:var(--gold); margin:24px 16px 12px;
+    padding-bottom:8px; border-bottom:1px solid #1e1e1e;
+  }
+
+  /* Tabs */
+  .tabs {
+    display:flex; margin:16px; gap:8px;
+  }
+  .tab-btn {
+    flex:1; padding:12px 8px;
+    background:var(--black2); border:1px solid #2a2a2a;
+    border-radius:8px; color:var(--gray);
+    font-family:'Montserrat',sans-serif; font-size:11px;
+    letter-spacing:2px; text-transform:uppercase; cursor:pointer;
+    transition:all 0.2s;
+  }
+  .tab-btn.active { background:#1a1a00; border-color:var(--gold-dark); color:var(--gold); }
+
+  .tab-pane { display:none; }
+  .tab-pane.active { display:block; }
+
+  /* Match card */
+  .match-card {
+    margin:0 16px 14px;
+    background:var(--black2); border:1px solid #222;
+    border-radius:10px; overflow:hidden;
+  }
+  .match-card-header {
+    background:var(--black3); padding:10px 14px;
+    display:flex; align-items:center; justify-content:space-between;
+    border-bottom:1px solid #1e1e1e;
+  }
+  .match-card-num { font-size:10px; letter-spacing:2px; color:var(--gold); text-transform:uppercase; }
+  .match-card-body { padding:14px; display:flex; flex-direction:column; gap:10px; }
+
+  .field-label { font-size:10px; letter-spacing:2px; color:var(--gray); text-transform:uppercase; margin-bottom:4px; }
+  .field-input {
+    background:var(--black3); border:1px solid #2a2a2a;
+    border-radius:8px; padding:11px 14px;
+    color:var(--white); font-family:'Montserrat',sans-serif;
+    font-size:14px; width:100%; outline:none; transition:border-color 0.2s;
+  }
+  .field-input:focus { border-color:var(--gold-dark); }
+  .field-row { display:flex; gap:8px; }
+  .field-row > div { flex:1; }
+
+  .vs-row { display:flex; align-items:center; gap:8px; }
+  .vs-label { font-size:11px; color:var(--gray); letter-spacing:1px; flex-shrink:0; width:28px; text-align:center; }
+
+  /* Result inputs */
+  .result-section {
+    padding:10px 14px; background:var(--black3);
+    border-top:1px solid #1e1e1e;
+    display:flex; align-items:center; gap:10px;
+  }
+  .result-label { font-size:10px; letter-spacing:1px; color:var(--gray); text-transform:uppercase; flex:1; }
+  .result-inputs { display:flex; align-items:center; gap:6px; }
+  .score-inp {
+    width:50px; background:var(--black2); border:1px solid #333;
+    border-radius:6px; padding:6px; color:var(--white);
+    font-family:'Playfair Display',serif; font-size:18px; font-weight:700;
+    text-align:center; outline:none; transition:border-color 0.2s;
+  }
+  .score-inp:focus { border-color:var(--gold-dark); }
+  .score-dash { color:var(--gold); font-size:18px; }
+
+  .btn-remove {
+    background:none; border:1px solid #3a1a1a; border-radius:6px;
+    color:var(--red); font-size:14px; width:32px; height:32px;
+    cursor:pointer; display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; transition:all 0.15s;
+  }
+  .btn-remove:hover { background:#2a1a1a; }
+
+  .btn-add {
+    margin:0 16px 20px; width:calc(100% - 32px);
+    padding:12px; background:none; border:1px dashed #333;
+    border-radius:8px; color:var(--gray);
+    font-family:'Montserrat',sans-serif; font-size:12px;
+    letter-spacing:2px; cursor:pointer; transition:all 0.2s;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+  }
+  .btn-add:hover { border-color:var(--gold-dark); color:var(--gold); }
+
+  /* Save button */
+  .btn-save {
+    margin:8px 16px; width:calc(100% - 32px); padding:18px;
+    background:linear-gradient(135deg,#8B6914,#C9A84C,#F0D080,#C9A84C);
+    border:none; border-radius:8px;
+    font-family:'Montserrat',sans-serif;
+    font-size:14px; font-weight:700; letter-spacing:3px; text-transform:uppercase;
+    color:var(--black); cursor:pointer; transition:opacity 0.2s, transform 0.1s;
+  }
+  .btn-save:active { transform:scale(0.98); }
+  .btn-save:disabled { opacity:0.4; cursor:not-allowed; }
+
+  /* Status bar */
+  .status-bar {
+    margin:8px 16px; padding:10px 14px;
+    background:var(--black2); border:1px solid #222;
+    border-radius:8px; font-size:11px; color:var(--gray);
+    letter-spacing:1px; text-align:center;
+  }
+  .status-bar.ok { border-color:#2d4a2d; color:var(--green); background:#0a1a0a; }
+  .status-bar.err { border-color:#4a2a2a; color:var(--red); background:#1a0a0a; }
+  .status-bar.loading { border-color:var(--gold-dark); color:var(--gold); background:#1a1a00; }
+
+  /* QR Tab */
+  .table-grid {
+    margin:0 16px; display:grid; grid-template-columns:1fr 1fr; gap:10px;
+  }
+  .table-qr-card {
+    background:var(--black2); border:1px solid #222;
+    border-radius:10px; overflow:hidden; text-align:center;
+  }
+  .table-qr-header {
+    background:var(--black3); padding:8px;
+    font-size:10px; letter-spacing:2px;
+    color:var(--gold); text-transform:uppercase;
+    border-bottom:1px solid #1e1e1e;
+  }
+  .table-qr-body { padding:12px; display:flex; flex-direction:column; align-items:center; gap:8px; }
+  .table-qr-body canvas, .table-qr-body img { border-radius:6px; }
+  .table-qr-url {
+    font-size:9px; color:var(--gray); word-break:break-all;
+    letter-spacing:0.3px; line-height:1.4;
+  }
+  .btn-copy-small {
+    width:100%; padding:7px; background:var(--black3);
+    border:1px solid #333; border-radius:6px; color:var(--gold);
+    font-family:'Montserrat',sans-serif; font-size:10px;
+    letter-spacing:1px; cursor:pointer; transition:all 0.15s;
+  }
+  .btn-copy-small:hover { background:#222; }
+
+  /* Tables count input */
+  .tables-control {
+    margin:0 16px 16px;
+    display:flex; align-items:center; gap:10px;
+    background:var(--black2); border:1px solid #222;
+    border-radius:8px; padding:12px 14px;
+  }
+  .tables-control label { font-size:11px; color:var(--gray); letter-spacing:1px; flex:1; }
+  .tables-count-inp {
+    width:60px; background:var(--black3); border:1px solid #2a2a2a;
+    border-radius:6px; padding:6px; color:var(--white);
+    font-family:'Playfair Display',serif; font-size:18px; font-weight:700;
+    text-align:center; outline:none;
+  }
+  .btn-gen-qr {
+    padding:10px 16px; background:var(--gold-dark);
+    border:none; border-radius:6px;
+    font-family:'Montserrat',sans-serif; font-size:11px;
+    font-weight:600; letter-spacing:1px; color:var(--black);
+    cursor:pointer; transition:all 0.2s; white-space:nowrap;
+  }
+  .btn-gen-qr:hover { background:var(--gold); }
+
+  /* Info box */
+  .info-box {
+    margin:0 16px 14px; background:var(--black2);
+    border:1px solid #222; border-radius:8px; padding:14px;
+  }
+  .info-box p { font-size:12px; color:var(--gray); line-height:1.7; letter-spacing:0.5px; }
+  .info-box p strong { color:var(--white); }
+  .info-box p + p { margin-top:8px; }
+
+  /* Toast */
+  .toast {
+    position:fixed; bottom:24px; left:50%;
+    transform:translateX(-50%) translateY(80px);
+    background:var(--gold); color:var(--black);
+    font-family:'Montserrat',sans-serif; font-size:12px; font-weight:600;
+    letter-spacing:2px; padding:12px 24px; border-radius:30px;
+    z-index:999; transition:transform 0.3s; white-space:nowrap;
+  }
+  .toast.show { transform:translateX(-50%) translateY(0); }
+
+  .divider { margin:4px 16px 16px; height:1px; background:linear-gradient(90deg,transparent,#2a2a2a,transparent); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo-main gold-text">COEL</div>
+  <div class="logo-sub">☆ Coffee &amp; Sports — Admin Panel ☆</div>
+  <div class="admin-badge">⚙ Διαχείριση Αγώνων</div>
+</div>
+
+<!-- Tabs -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('matches')">✦ Αγώνες</button>
+  <button class="tab-btn" onclick="switchTab('qr')">▣ QR Τραπεζιών</button>
+</div>
+
+<!-- ===== TAB: MATCHES ===== -->
+<div class="tab-pane active" id="tab-matches">
+
+  <div class="s-title">✦ Τρέχοντες Αγώνες</div>
+
+  <div class="info-box">
+    <p>Άλλαξε αγώνες, ώρες ή αποτελέσματα και πάτα <strong>"Αποθήκευση"</strong>. Όλα τα τραπέζια θα ενημερωθούν <strong>αυτόματα</strong> την επόμενη φορά που ο πελάτης θα σκανάρει.</p>
+  </div>
+
+  <div id="matches-container"></div>
+
+  <button class="btn-add" onclick="addMatch()">＋ Πρόσθεσε Αγώνα</button>
+
+  <div class="status-bar" id="status-bar">Φόρτωση αγώνων...</div>
+
+  <button class="btn-save" id="btn-save" onclick="saveMatches()" disabled>
+    ✦ Αποθήκευση & Ενημέρωση
+  </button>
+
+</div>
+
+<!-- ===== TAB: QR ===== -->
+<div class="tab-pane" id="tab-qr">
+
+  <div class="s-title">✦ QR Κωδικοί Τραπεζιών</div>
+
+  <div class="info-box">
+    <p>Αυτά τα QR είναι <strong>σταθερά</strong> — τα τυπώνεις <strong>μια φορά</strong> και τα βάζεις στα τραπέζια. Δεν χρειάζεται να τα αλλάξεις ποτέ ξανά.</p>
+    <p>Κάθε QR ανοίγει αυτόματα τους <strong>τρέχοντες αγώνες</strong> που έχεις αποθηκεύσει.</p>
+  </div>
+
+  <div class="tables-control">
+    <label>Αριθμός τραπεζιών:</label>
+    <input class="tables-count-inp" type="number" id="tables-count" value="15" min="1" max="30">
+    <button class="btn-gen-qr" onclick="generateAllQR()">▣ Δημιούργησε</button>
+  </div>
+
+  <div class="table-grid" id="table-grid">
+    <div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--gray);font-size:12px;letter-spacing:2px">
+      Πάτα "Δημιούργησε" για να εμφανιστούν τα QR
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// =============================================
+// ΡΥΘΜΙΣΕΙΣ
+// =============================================
+const BIN_ID_STORAGE_KEY = 'coel_bin_id';
+const API_KEY = '$2a$10$8zOcogcm3zIea.wSZBFVBuFmfzk1lAor1cbPB3pvNnlYOCXsXd22i';
+const PLAYER_URL = 'coel-player.html'; // σχετική διεύθυνση του player
+
+let BIN_ID = localStorage.getItem(BIN_ID_STORAGE_KEY) || '';
+// =============================================
+
+let matches = [];
+let matchIdx = 0;
+
+// ---- Tabs ----
+function switchTab(name) {
+  document.querySelectorAll('.tab-btn').forEach((b,i) => {
+    b.classList.toggle('active', ['matches','qr'][i] === name);
+  });
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+// ---- Load from JSONBin ----
+async function loadMatches() {
+  setStatus('loading', '⏳ Φόρτωση αγώνων...');
+
+  // Αν δεν υπάρχει Bin, φτιάχνουμε ένα νέο
+  if (!BIN_ID) {
+    await createBin();
+    return;
+  }
+
+  try {
+    const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+      headers: { 'X-Master-Key': API_KEY }
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    matches = data.record.matches || [];
+    matchIdx = matches.length;
+    renderMatches();
+    setStatus('ok', '✔ Αγώνες φορτώθηκαν');
+    document.getElementById('btn-save').disabled = false;
+  } catch(e) {
+    setStatus('err', '✕ Σφάλμα φόρτωσης: ' + e.message);
+  }
+}
+
+async function createBin() {
+  setStatus('loading', '⏳ Δημιουργία αποθήκης...');
+  const defaultData = {
+    matches: [
+      { home: 'ΠΑΟΚ', away: 'Παναθηναϊκός', date: today(), time: '20:00', result: null },
+      { home: 'Ολυμπιακός', away: 'ΑΕΚ', date: today(), time: '22:00', result: null },
+      { home: 'Αρης', away: 'Βιγιαρεάλ', date: today(), time: '22:00', result: null }
+    ]
+  };
+  try {
+    const res = await fetch('https://api.jsonbin.io/v3/b', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Master-Key': API_KEY,
+        'X-Bin-Name': 'COEL-Matches',
+        'X-Bin-Private': 'false'
+      },
+      body: JSON.stringify(defaultData)
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    BIN_ID = data.metadata.id;
+    localStorage.setItem(BIN_ID_STORAGE_KEY, BIN_ID);
+    matches = defaultData.matches;
+    matchIdx = matches.length;
+    renderMatches();
+    setStatus('ok', '✔ Αποθήκη δημιουργήθηκε · Bin ID: ' + BIN_ID);
+    document.getElementById('btn-save').disabled = false;
+  } catch(e) {
+    setStatus('err', '✕ Σφάλμα: ' + e.message);
+  }
+}
+
+// ---- Save to JSONBin ----
+async function saveMatches() {
+  const btn = document.getElementById('btn-save');
+  btn.disabled = true;
+  setStatus('loading', '⏳ Αποθήκευση...');
+
+  const collected = collectMatches();
+  if (!collected[0]?.home || !collected[0]?.away) {
+    setStatus('err', '✕ Συμπλήρωσε τουλάχιστον τον 1ο αγώνα!');
+    btn.disabled = false; return;
+  }
+
+  try {
+    const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Master-Key': API_KEY
+      },
+      body: JSON.stringify({ matches: collected })
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    matches = collected;
+    setStatus('ok', '✔ Αποθηκεύτηκε! Όλα τα τραπέζια ενημερώθηκαν.');
+    showToast('✦ Αποθηκεύτηκε!');
+  } catch(e) {
+    setStatus('err', '✕ Σφάλμα: ' + e.message);
+  }
+  btn.disabled = false;
+}
+
+// ---- Render matches ----
+function renderMatches() {
+  const container = document.getElementById('matches-container');
+  container.innerHTML = '';
+  matchIdx = 0;
+  const all = matches.slice();
+  matches = [];
+  all.forEach((m, i) => addMatch(m, i === 0));
+}
+
+function addMatch(data = null, isFirst = false) {
+  if (matches.length === 0) isFirst = true;
+  const idx = matchIdx++;
+  const m = { idx, ...( data || { home:'', away:'', date: today(), time:'20:00', result: null }) };
+  matches.push(m);
+
+  const container = document.getElementById('matches-container');
+  const card = document.createElement('div');
+  card.className = 'match-card';
+  card.id = `mc-${idx}`;
+
+  const rh = m.result?.home ?? '';
+  const ra = m.result?.away ?? '';
+
+  card.innerHTML = `
+    <div class="match-card-header">
+      <span class="match-card-num" id="mcn-${idx}">Αγώνας ${matches.length}${isFirst ? ' · Υποχρεωτικός' : ''}</span>
+      ${!isFirst ? `<button class="btn-remove" onclick="removeMatch(${idx})">✕</button>` : ''}
+    </div>
+    <div class="match-card-body">
+      <div class="vs-row">
+        <input class="field-input" id="home-${idx}" placeholder="Γηπεδούχος" value="${m.home}" style="flex:1">
+        <div class="vs-label">VS</div>
+        <input class="field-input" id="away-${idx}" placeholder="Φιλοξενούμενος" value="${m.away}" style="flex:1">
+      </div>
+      <div class="field-row">
+        <div>
+          <div class="field-label">Ημερομηνία</div>
+          <input class="field-input" id="date-${idx}" type="date" value="${m.date}">
+        </div>
+        <div>
+          <div class="field-label">Ώρα</div>
+          <input class="field-input" id="time-${idx}" type="time" value="${m.time}">
+        </div>
+      </div>
+    </div>
+    <div class="result-section">
+      <div class="result-label">Αποτέλεσμα (μετά τον αγώνα)</div>
+      <div class="result-inputs">
+        <input class="score-inp" id="rh-${idx}" type="number" min="0" max="20" placeholder="—" value="${rh}">
+        <div class="score-dash">–</div>
+        <input class="score-inp" id="ra-${idx}" type="number" min="0" max="20" placeholder="—" value="${ra}">
+      </div>
+    </div>
+  `;
+  container.appendChild(card);
+  updateNumbers();
+}
+
+function removeMatch(idx) {
+  const pos = matches.findIndex(m => m.idx === idx);
+  if (pos <= 0) return;
+  matches.splice(pos, 1);
+  document.getElementById(`mc-${idx}`)?.remove();
+  updateNumbers();
+}
+
+function updateNumbers() {
+  matches.forEach((m, i) => {
+    const el = document.getElementById(`mcn-${m.idx}`);
+    if (el) el.textContent = `Αγώνας ${i+1}${i===0?' · Υποχρεωτικός':''}`;
+  });
+}
+
+function collectMatches() {
+  return matches.map(m => {
+    const home = document.getElementById(`home-${m.idx}`)?.value.trim() || '';
+    const away = document.getElementById(`away-${m.idx}`)?.value.trim() || '';
+    const date = document.getElementById(`date-${m.idx}`)?.value || '';
+    const time = document.getElementById(`time-${m.idx}`)?.value || '';
+    const rh = document.getElementById(`rh-${m.idx}`)?.value;
+    const ra = document.getElementById(`ra-${m.idx}`)?.value;
+    const hasResult = rh !== '' && ra !== '';
+    return { home, away, date, time, result: hasResult ? { home: parseInt(rh), away: parseInt(ra) } : null };
+  }).filter((m, i) => i === 0 || (m.home && m.away));
+}
+
+// ---- QR Generation ----
+function generateAllQR() {
+  const count = parseInt(document.getElementById('tables-count').value) || 15;
+  const grid = document.getElementById('table-grid');
+  grid.innerHTML = '';
+
+  // Base URL: same folder, player file
+  const base = window.location.href.replace('coel-admin.html', PLAYER_URL);
+
+  for (let t = 1; t <= count; t++) {
+    const url = `${base}?table=${t}`;
+
+    const card = document.createElement('div');
+    card.className = 'table-qr-card';
+    card.innerHTML = `
+      <div class="table-qr-header">Τραπέζι ${t}</div>
+      <div class="table-qr-body">
+        <div id="qr-t${t}"></div>
+        <button class="btn-copy-small" onclick="copyLink('${url}')">⎘ Αντιγραφή Link</button>
+      </div>
+    `;
+    grid.appendChild(card);
+
+    // Small delay per card so DOM renders
+    setTimeout(() => {
+      new QRCode(document.getElementById(`qr-t${t}`), {
+        text: url,
+        width: 130,
+        height: 130,
+        colorDark: '#000000',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    }, t * 30);
+  }
+
+  showToast('▣ ' + count + ' QR δημιουργήθηκαν!');
+}
+
+function copyLink(url) {
+  navigator.clipboard.writeText(url).then(() => showToast('Link αντιγράφηκε!')).catch(() => {
+    const el = document.createElement('textarea');
+    el.value = url; document.body.appendChild(el);
+    el.select(); document.execCommand('copy'); document.body.removeChild(el);
+    showToast('Link αντιγράφηκε!');
+  });
+}
+
+// ---- Helpers ----
+function today() {
+  return new Date().toISOString().split('T')[0];
+}
+
+function setStatus(type, msg) {
+  const el = document.getElementById('status-bar');
+  el.className = 'status-bar ' + type;
+  el.textContent = msg;
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ---- Init ----
+loadMatches();
+</script>
+</body>
+</html>
